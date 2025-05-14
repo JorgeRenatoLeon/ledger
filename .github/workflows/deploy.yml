@@ -31,4 +31,4 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             cd ~/ledger
-            docker-compose up --build -d
+            docker compose up --build -d
