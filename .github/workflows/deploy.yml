@@ -29,12 +29,12 @@ jobs:
       # 4. Construir la imagen Docker
       - name: Build Docker Image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/ledger:latest .
+          docker build -t ghcr.io/jorgerenatoleon/ledger:latest .
 
       # 5. Empujar la imagen al registro
       - name: Push Docker Image
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/ledger:latest
+          docker push ghcr.io/jorgerenatoleon/ledger:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,7 +54,7 @@ jobs:
             docker login ghcr.io -u ${{ secrets.GHCR_ACTOR }} -p ${{ secrets.GHCR_TOKEN }}
             
             # Descargar la nueva imagen y actualizar contenedor
-            docker pull ghcr.io/${{ github.repository_owner }}/ledger:latest
+            docker pull ghcr.io/jorgerenatoleon/ledger:latest
             docker stop ledger || true
             docker rm ledger || true
-            docker run -d --name ledger -p 80:80 ghcr.io/${{ github.repository_owner }}/ledger:latest
+            docker run -d --name ledger -p 80:80 ghcr.io/jorgerenatoleon/ledger:latest
