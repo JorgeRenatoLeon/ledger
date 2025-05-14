@@ -1,0 +1,66 @@
+services:
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: apps/docker/web/Dockerfile
+    volumes:
+      - ./web:/usr/src/app
+      # - static:/app/web/static
+    ports:
+      - 8000:8000
+    # env_file:
+    #   - ./.env.dev
+    depends_on:
+      - db
+    networks:
+      - TRACEABLE_LEDGER_NETWORK
+
+
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_django
+      - POSTGRES_PASSWORD=hello_django
+      - POSTGRES_DB=hello_django_dev
+    ports:
+      - "5432:5432"
+    networks:
+      - TRACEABLE_LEDGER_NETWORK
+
+  www:
+    container_name: www
+    build:
+      context: .
+      dockerfile: apps/docker/www/Dockerfile
+    volumes:
+      - node_modules:/app/www/node_modules
+    ports:
+      - 3000:3000
+    networks:
+      - TRACEABLE_LEDGER_NETWORK
+
+  
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: apps/docker/nginx/Dockerfile
+    volumes:
+      - static:/app/web/static
+    ports:
+      - 80:80
+    networks:
+      - TRACEABLE_LEDGER_NETWORK
+
+
+
+volumes:
+  static:
+  node_modules:
+  postgres_data:
+
+networks:
+  TRACEABLE_LEDGER_NETWORK:
