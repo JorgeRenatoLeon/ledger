@@ -19,7 +19,7 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          key: ${{ secrets.EC2_KEY }}
           source: "."
           target: "~./ledger"
       # 6. Conexión al servidor EC2
@@ -28,7 +28,7 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          key: ${{ secrets.EC2_KEY }}
           script: |
             cd ~/ledger
             docker-compose up --build -d
